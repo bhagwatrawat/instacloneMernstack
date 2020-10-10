@@ -4,7 +4,7 @@
  const router = express.Router()
  const User = require('../models/auth')
  const jwt=require('jsonwebtoken')
- const {JWT_SECRET}=require('../../keys.js')
+ const {JWT_SECRET}=require('../config/keys.js')
  const Middleware=require('../Middleware/authMiddleware')
  router.get('/protected',Middleware, (req, res) => {
    res.send("hello")

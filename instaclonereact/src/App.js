@@ -24,6 +24,7 @@ function App() {
     }
     else{
       setUser(JSON.parse(localuser))
+
     }
     return ()=>  localuser
 

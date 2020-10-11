@@ -22,14 +22,15 @@ const Signin = (props) => {
     }
     axios.post('/signin',data).then(res=>{
 
-
+      console.log(res.data)
       localStorage.setItem("jwt",res.data.token)
       localStorage.setItem("USER",JSON.stringify(res.data.user))
       setUser(res.data.user)
       console.log(user)
       history.push('/')
     }).catch(e=>{
-      setError(e.data.error)
+      console.log(e.response.data.error)
+      setError(e.response.data.error)
     })
   }
   let alert=null

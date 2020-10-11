@@ -17,7 +17,7 @@ const Post = (props) => {
   const [commentToggle,setCommentToggle]=useState(false)
   useEffect(()=>{
 
-   if(props.likes.includes(props.userId)){
+   if(props.likes.includes(user._id)){
 
    setToggle(true)
  }
@@ -84,7 +84,7 @@ headers: {
   return (
     <div className="_Post" >
      <div className="_heading p-2">
-       <Avatar className="_avatar" size="4vw"  name={props.username}/>
+       <Avatar className="_avatar" size="5vw"  name={props.username} src={props.profilePic}/>
 
     <div className="ml-3"><Link className="_profileName" to={props.userId.toString()===user._id.toString()?"/profile":"/profile/"+props.userId}><strong>{props.username}</strong></Link></div>
     </div>

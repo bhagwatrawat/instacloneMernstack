@@ -32,8 +32,9 @@
 }
 ._header{
   display: flex;
+  flex-flow: row;
   justify-content: space-between;
-  align-items:center;
+
 }
 ._topheader{
    position: fixed;
@@ -41,4 +42,11 @@
    left:0;
     z-index: 1;
 
+}
+._brand{
+  height:40px;
+}
+._logo{
+  height: 35px;
+  object-fit: contain;
 }

@@ -29,7 +29,7 @@ const Signin = (props) => {
       console.log(user)
       history.push('/')
     }).catch(e=>{
-      setError(e.response.data.error)
+      setError(e.data.error)
     })
   }
   let alert=null
@@ -45,7 +45,9 @@ const Signin = (props) => {
     <div className="_colSub col-md-4 offset-md-4 col-sm-6 offset-sm-3 col-lg-3 offset-lg-4 pl-0 pr-0 pl-md-4 pr-md-4 ">
     <Form className="_thisform p-3">
 
-    <FormText style={{textAlign:'center'}} className=" mt-4"><h1  className="_font">Instagram</h1></FormText>
+      <div className="_logoDiv">
+        <img className="_logo" src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png" alt="instagram" />
+      </div>
       {alert}
       <FormGroup className="mt-4 ">
 

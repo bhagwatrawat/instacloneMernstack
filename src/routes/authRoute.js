@@ -12,7 +12,7 @@ router.get('/myposts',Middleware,(req,res)=>{
   })
 })
 router.get('/allpost',Middleware,(req,res)=>{
-  Post.find().populate("UserId","_id name").populate("comments.postedBy",'_id name').then(post=>{
+  Post.find().populate("UserId","_id name profileUrl").populate("comments.postedBy",'_id name').then(post=>{
     res.send(post)
   }).catch(e=>{
     res.status(500).send(e)

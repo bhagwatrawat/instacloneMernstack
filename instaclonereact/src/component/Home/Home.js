@@ -13,6 +13,7 @@ useEffect(()=>{
     }}).then(res=>{
 
       setPosts(res.data.map(doc=>doc))
+      
 
     }).catch(e=>{
       console.log(e)
@@ -22,7 +23,7 @@ useEffect(()=>{
 
 return   <Post key={post._id} id={post._id} caption={post.caption} photoUrl={post.photoUrl}
    username={post.UserId.name} userId={post.UserId._id} likes={post.likes}
-   comments={post.comments}/>
+   comments={post.comments} profilePic={post.UserId.profileUrl}/>
   })
 
   return (

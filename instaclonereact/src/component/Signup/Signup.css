@@ -12,6 +12,12 @@
 
 
 }
+._logoDiv{
+  margin-top: 20px;
+  display: flex;
+  justify-content:center;
+
+}
 ._mainColumn{
   height:100vh;
   display: flex;

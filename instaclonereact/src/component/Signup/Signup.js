@@ -43,7 +43,9 @@ const Signin = (props) => {
     <div className="_column col-md-4 offset-md-4 col-sm-6 offset-sm-3 col-lg-3 offset-lg-4 pl-0 pr-0 pl-md-4 pr-md-4">
 
     <Form className="_form p-3">
-    <FormText style={{textAlign:'center'}} className="mt-4"><h1 className="_font ">Instagram</h1></FormText>
+      <div className="_logoDiv">
+        <img className="_logo" src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png" alt="instagram" />
+      </div>
     {alert}
     <FormGroup className="mt-4 ">
 
@@ -63,7 +65,7 @@ const Signin = (props) => {
        <Button className="_button" type="submit" onClick={signUpHandler} outline color="primary">Sign up</Button>
        <div className="_underline mt-5 mb-5"><span>OR</span></div>
        <div style={{textAlign:'center'}}>Forget Password ?</div>
-       <div style={{textAlign:'center'}}>Already have an account ?<Link to='/'> Signin</Link></div>
+       <div style={{textAlign:'center'}}>Already have an account ?<Link to='/signin'> Signin</Link></div>
       </Form>
       </div >
     </div>

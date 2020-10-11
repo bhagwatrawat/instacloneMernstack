@@ -40,7 +40,9 @@ const logoutHandler=()=>{
 
         <Navbar className="_header col-lg-8 offset-lg-2 pl-0 pr-0" color="white" light expand="md">
 
-        <NavbarBrand className="_brand" href="/"><h1 className="_font">Instagram</h1></NavbarBrand>
+        <NavbarBrand className="_brand">  <Link to='/'>
+            <img className="_logo" src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png" alt="instagram" />
+          </Link></NavbarBrand>
 
 
 
@@ -54,7 +56,7 @@ const logoutHandler=()=>{
               <Link to="/"><NavLink>Home</NavLink></Link>
             </NavItem>
             <NavItem>
-              <Link to="/profile"><NavLink>Profle</NavLink></Link>
+              <Link to="/profile"><NavLink>Profile</NavLink></Link>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>

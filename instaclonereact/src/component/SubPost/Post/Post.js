@@ -3,7 +3,7 @@ import "./Post.css"
 import { RiHeart3Line } from 'react-icons/ri';
 import {Link} from 'react-router-dom'
 import {FcLike} from 'react-icons/fc'
-import Avatar from 'react-avatar'
+import {Avatar} from '@material-ui/core'
 import {Input,Button,Form} from 'reactstrap'
 import {UserContext} from '../../../reducer/reducer'
 import axios from 'axios'
@@ -84,7 +84,7 @@ headers: {
   return (
     <div className="_Post" >
      <div className="_heading p-2">
-       <Avatar className="_avatar" size="4vw"  name={props.username}/>
+       <Avatar className="_avatar" src={props.profilePic}  name={props.username}/>
 
     <div className="ml-3"><Link className="_profileName" to={props.userId.toString()===user._id.toString()?"/profile":"/profile/"+props.userId}><strong>{props.username}</strong></Link></div>
     </div>

@@ -11,7 +11,7 @@ useEffect(()=>{
 
       'Authorization': 'Bearer '+localStorage.getItem('jwt')
     }}).then(res=>{
-      
+
       setPosts(res.data.map(doc=>doc))
 
     }).catch(e=>{
@@ -20,8 +20,8 @@ useEffect(()=>{
   },[])
   const allposts= posts.map(post=>{
 
-return   <Post key={post._id} id={post._id} caption={post.caption} photoUrl={post.photoUrl}
-   username={post.UserId.name} userId={post.UserId._id} likes={post.likes}
+return   <Post key={post._id}  id={post._id} caption={post.caption} photoUrl={post.photoUrl}
+   username={post.UserId.name} profilePic={post.UserId.profileUrl} userId={post.UserId._id} likes={post.likes}
    comments={post.comments}/>
   })
 

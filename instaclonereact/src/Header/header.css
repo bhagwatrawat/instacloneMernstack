@@ -50,3 +50,19 @@
   height: 35px;
   object-fit: contain;
 }
+@media(min-width:721px){
+  ._homeIcon{
+    display:none;
+  }
+  ._postIcon{
+    display: none;
+  }
+}
+@media(max-width:720px){
+  ._home{
+    display:none;
+  }
+  ._post{
+    display: none;
+  }
+}

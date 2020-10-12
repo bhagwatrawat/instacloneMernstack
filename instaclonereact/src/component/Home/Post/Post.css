@@ -82,11 +82,3 @@ border-color: inherit;
         background-color: #FAFAFA;
       }
 }
-._avatar{
-  text-align: center;
-  background: blue;
-  border-radius: 30px;
-  color:red;
-  align-items: center;
-  display: flex;
-}

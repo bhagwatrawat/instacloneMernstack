@@ -20,7 +20,7 @@ router.get('/allpost',Middleware,(req,res)=>{
 })
 router.get('/subpost',Middleware,(req,res)=>{
 
-  Post.find({UserId:{$in:req.user.following}}).populate("UserId","_id name").populate("comments.postedBy",'_id name').then(post=>{
+  Post.find({UserId:{$in:req.user.following}}).populate("UserId","_id name profileUrl").populate("comments.postedBy",'_id name').then(post=>{
     res.send(post)
 
   }).catch(e=>{

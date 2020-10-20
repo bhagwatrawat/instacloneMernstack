@@ -8,13 +8,13 @@ import {BrowserRouter} from 'react-router-dom'
 import {UserProvider} from './reducer/reducer'
 
 ReactDOM.render(
-  <React.StrictMode>
+
     <BrowserRouter>
     <UserProvider>
     <App />
     </UserProvider>
   </BrowserRouter>
-  </React.StrictMode>,
+  ,
   document.getElementById('root')
 );
 

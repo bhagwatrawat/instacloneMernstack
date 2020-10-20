@@ -1,11 +1,15 @@
 import React, { useState,useContext } from 'react';
 import {useHistory,Link} from 'react-router-dom'
+import axios from 'axios'
 import {UserContext} from '../reducer/reducer'
 import {FaHome} from 'react-icons/fa'
 import {Avatar} from '@material-ui/core'
 import {IoIosCamera} from 'react-icons/io'
+import {IoIosSend} from 'react-icons/io'
+import {FiSearch} from 'react-icons/fi'
 import './header.css'
 import { makeStyles } from '@material-ui/core/styles';
+import { Button, UncontrolledPopover, PopoverHeader, PopoverBody } from 'reactstrap';
 import {
   Collapse,
   Navbar,
@@ -13,13 +17,13 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
   Input,
-  Col
+  Col,
+  ListGroup, ListGroupItem
 
 } from 'reactstrap';
 const useStyles = makeStyles((theme) => ({
@@ -41,8 +45,30 @@ const useStyles = makeStyles((theme) => ({
 const Header = (props) => {
   const [user,setUser]=useContext(UserContext)
   const [isOpen, setIsOpen] = useState(false);
+  const [search,setSearch]=useState(false)
+  const [searchData,setSearchData]=useState([])
   const history=useHistory()
+const searchHandler=(e)=>{
+  if(e.target.value){
+    setSearch(true)
+  }
+  else{
+    setSearch(false)
+  }
+  const data={
+    query:e.target.value
+  }
+  axios.post("/search-users",data,{
+     headers: {
+      'Authorization': 'Bearer '+localStorage.getItem('jwt')
+    }
+  }).then(res=>{
 
+    setSearchData(res.data)
+  }).catch(err=>{
+    console.log(err)
+  })
+}
   const toggle = () => setIsOpen(!isOpen);
 
 const logoutHandler=()=>{
@@ -66,41 +92,69 @@ const logoutHandler=()=>{
 
 
 
-        <Input className="_search" type="text" name="search" id="exampleEmail" placeholder="Search" />
+        <Input className="_search" type="text" name="search" id="exampleEmail" onChange={(e)=>{searchHandler(e)}} placeholder="Search" />
+        <div className="_iconSearch" ><FiSearch size={25}/></div>
+          <UncontrolledPopover popperClassName=" _mainPopper mt-3" innerClassName="_popper" trigger="legacy" placement="bottom" isOpen={search} toggle={()=>setSearch(false)} target='exampleEmail'>
 
+            <ListGroup>
+              {searchData.map(item=>{
+              return <Link key={item._id} style={{ color: 'inherit', textDecoration: 'inherit'}}
+                   onClick={()=>setSearch(false)}
+                   to={item._id!==user._id?'/profile/'+item._id:'/profile'}>
+                   <ListGroupItem className="d-flex align-items-center">
+                   <Avatar name={item.name} src={item.profileUrl} className={classes.small}/>
+                   <strong className="ml-2">{item.name}</strong>
+                  </ListGroupItem>
+                   </Link>
 
+              })}
+          </ListGroup>
+        </UncontrolledPopover>
 
           <Nav className="_links" navbar>
-            <div className="d-flex ml-auto">
+            <div className="d-flex  ml-auto">
             <NavItem >
-              <Link  to="/"><NavLink ><div className="_home mr-2">Home</div>
-              <div className="_homeIcon mr-2" >
+              <Link  to="/" style={{ color: 'inherit', textDecoration: 'inherit'}} >
+              <div className="_homeIcon mr-2 mr-sm-3 mt-2 ">
                 <FaHome size={25}/></div>
-              </NavLink>
-             </Link>
+              </Link>
+
 
             </NavItem>
+            <NavItem >
+              <Link  to="/chat" style={{ color: 'inherit', textDecoration: 'inherit'}} >
+              <div className="_chatIcon mr-2 mr-sm-3 mt-2 ">
+                <IoIosSend size={25}/></div>
+              </Link>
+            </NavItem>
             <NavItem>
-            <Link to='/createpost'><NavLink><div className="_post mr-2">Add Post</div>
-              <div className="_postIcon mr-2"><IoIosCamera size={32} /></div></NavLink></Link>
+            <Link to='/createpost' style={{ color: 'inherit', textDecoration: 'inherit'}}>
+              <div className="_postIcon mr-2 mt-2 mr-sm-3"><IoIosCamera size={32} /></div></Link>
             </NavItem>
             <UncontrolledDropdown nav>
               <DropdownToggle nav>
-                <Avatar className="_avatar" name={user.name} src={user.profileUrl} className={classes.small}/>
+                <Avatar name={user.name} src={user.profileUrl} className={classes.small}/>
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem>
-                <Link to="/profile"><NavLink>Profile</NavLink></Link>
+                <Link to="/profile" style={{ color: 'inherit', textDecoration: 'inherit'}}>Profile</Link>
                 </DropdownItem>
+
+
                 <DropdownItem>
-                <Link to='/subpost'><NavLink>Following Posts</NavLink></Link>
+                <Link  to='/subpost' style={{ color: 'inherit', textDecoration: 'inherit'}}>Following Posts</Link>
                 </DropdownItem>
+
                 <DropdownItem divider />
                 <DropdownItem>
-                  <NavLink onClick={logoutHandler}>
-                  LogOut
+                  <Link style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                    <div onClick={logoutHandler}>
 
-                </NavLink>
+                      LogOut
+                    </div>
+
+
+                </Link>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>

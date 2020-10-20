@@ -7,7 +7,8 @@ const router=express.Router()
 
 router.get('/otherUser/:id',Middleware,(req,res)=>{
   User.findOne({_id:req.params.id}).select("-password").then(user=>{
-    Post.find({UserId:req.params.id}).populate("postedBy","_id name")
+    Post.find({UserId:req.params.id}).populate("userId","_id name")
+    .sort('-createdAt')
     .exec((err,result)=>{
       if(err){
       return res.status(404).send(err)

@@ -55,6 +55,7 @@ headers: {
 }
 }).then(res=>{
   setToggle(false)
+  console.log(res.data)
   setUser(res.data)
 }).catch(err=>{
   console.log(err)

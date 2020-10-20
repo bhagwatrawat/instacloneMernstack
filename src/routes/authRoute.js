@@ -1,18 +1,35 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const Post =require('../models/post')
+const User=require('../models/auth')
 const Middleware=require('../Middleware/authMiddleware')
 const router=express.Router()
 
 router.get('/myposts',Middleware,(req,res)=>{
-  Post.find({UserId:req.user._id}).populate("UserId","_id name").then(result=>{
+  Post.find({UserId:req.user._id}).populate("UserId","_id name")
+  .sort('-createdAt')
+  .then(result=>{
     res.send(result)
   }).catch(e=>{
     res.send(e)
   })
 })
+router.post('/search-users',Middleware,(req,res)=>{
+  let userPattern= new RegExp("^"+req.body.query)
+  User.find({name:{$regex:userPattern}})
+  .select("_id name profileUrl")
+  .then(result=>{
+    res.send(result)
+  }).catch(er=>{
+    res.send(er)
+  })
+})
 router.get('/allpost',Middleware,(req,res)=>{
-  Post.find().populate("UserId","_id name profileUrl").populate("comments.postedBy",'_id name').then(post=>{
+  Post.find()
+  .populate("UserId","_id name profileUrl")
+  .populate("comments.postedBy",'_id name')
+  .sort('-createdAt')
+  .then(post=>{
     res.send(post)
   }).catch(e=>{
     res.status(500).send(e)
@@ -20,7 +37,11 @@ router.get('/allpost',Middleware,(req,res)=>{
 })
 router.get('/subpost',Middleware,(req,res)=>{
 
-  Post.find({UserId:{$in:req.user.following}}).populate("UserId","_id name profileUrl").populate("comments.postedBy",'_id name').then(post=>{
+  Post.find({UserId:{$in:req.user.following}})
+  .populate("UserId","_id name profileUrl")
+  .populate("comments.postedBy",'_id name')
+  .sort('-createdAt')
+  .then(post=>{
     res.send(post)
 
   }).catch(e=>{

@@ -1,24 +1,28 @@
 
-@import url(//db.onlinewebfonts.com/c/e721330050ecfe81b4e5455e1a308181?family=Billabong);
-._font{
-  font-family: Billabong;
-  font-size: 30px;
-  color:black;
-  margin-bottom: 0px;
 
-}
+
 
 ._search{
   width:200px;
   height:4vh;
+ style:none;
   margin-top: 5px;
-  border: 1px solid ##A5A7AA;
+  border: 1px solid #A5A7AA;
 
 }
-@media (max-width:480px){
-  ._search{
-    display: none;
-  }
+._search:focus{
+ border-color: #A5A7AA;
+-webkit-box-shadow: none;
+  box-shadow: none;
+
+}
+
+._mainPopper{
+  width:80%;
+}
+._popper{
+  overflow-y:scroll;
+  max-height: 320px;
 }
 ._search::placeholder{
   color:#A5A7AA;
@@ -51,18 +55,15 @@
   object-fit: contain;
 }
 @media(min-width:721px){
-  ._homeIcon{
-    display:none;
-  }
-  ._postIcon{
+
+  ._iconSearch{
+
     display: none;
   }
 }
 @media(max-width:720px){
-  ._home{
-    display:none;
-  }
-  ._post{
+
+  ._search{
     display: none;
   }
 }

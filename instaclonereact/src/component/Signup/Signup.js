@@ -44,7 +44,7 @@ const Signin = (props) => {
 
     <Form className="_form p-3">
       <div className="_logoDiv">
-        <img className="_logo" src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png" alt="instagram" />
+        <img className="_logo" src="https://lh3.googleusercontent.com/proxy/46NBdrpx-_O6hVc4LdiG5sBw1SmdgBs5JUV3HIKU3_PDBLhAHa8iF3Ji7MdJNtuqAqmJdoHJjhBsCzVlZnjsx_UKBmA" alt="instagram" />
       </div>
     {alert}
     <FormGroup className="mt-4 ">

@@ -1,5 +1,6 @@
 import React ,{useState} from 'react'
 import './Signup.css'
+import logo from '../../Image/logo.png'
 import { Button, Form, FormGroup, Label, Input, FormText,Alert,Toast,ToastBody } from 'reactstrap'
 import {Link,useHistory} from 'react-router-dom'
 import axios from 'axios'
@@ -44,7 +45,7 @@ const Signin = (props) => {
 
     <Form className="_form p-3">
       <div className="_logoDiv">
-        <img className="_logo" src="https://lh3.googleusercontent.com/proxy/46NBdrpx-_O6hVc4LdiG5sBw1SmdgBs5JUV3HIKU3_PDBLhAHa8iF3Ji7MdJNtuqAqmJdoHJjhBsCzVlZnjsx_UKBmA" alt="instagram" />
+        <img className="_logo" src={logo} alt="instagram" />
       </div>
     {alert}
     <FormGroup className="mt-4 ">

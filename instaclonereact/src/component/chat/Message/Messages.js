@@ -20,10 +20,10 @@ const userId=user._id
     if(!socket) return;
     socket.on('response',({room,textmsg})=>{
       console.log('response received')
-      setMsgs(...msgs,{
+      setMsgs([...msgs,{
         senderId:room,
         message:textmsg,
-      })
+      }])
     })
     return ()=>socket.off('response')
   },[socket])

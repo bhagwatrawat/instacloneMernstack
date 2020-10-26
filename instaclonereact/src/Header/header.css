@@ -67,3 +67,9 @@
     display: none;
   }
 }
+@media(max-width:480px){
+
+._logo{
+  height:27px;
+}
+}

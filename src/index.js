@@ -20,9 +20,9 @@ io.on('connection',(socket)=>{
   socket.join(room)
   console.log(room)
   console.log('connnection made')
-  socket.on('sendmsg',(id, message)=>{
-    console.log('message sent',message,id)
-    io.to(id).emit('response',room,message)
+  socket.on('sendmsg',({id, textmsg})=>{
+    console.log('message sent',textmsg,id)
+    io.to(id).emit('response',{room,textmsg})
   })
 })
 

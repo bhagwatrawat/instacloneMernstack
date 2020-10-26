@@ -18,11 +18,11 @@ import './Message.css'
 const userId=user._id
   useEffect(()=>{
     if(!socket) return;
-    socket.on('response',(room,message)=>{
+    socket.on('response',({room,textmsg})=>{
       console.log('response received')
       setMsgs(...msgs,{
         senderId:room,
-        message:message,
+        message:textmsg,
       })
     })
     return ()=>socket.off('response')
@@ -36,7 +36,7 @@ const userId=user._id
        message:textmsg,
      }
      setTextmsg('')
-     const senderId=user._id
+
      axios.post('/sendmsg',data,{  headers: {
 
          'Authorization': 'Bearer '+localStorage.getItem('jwt')
@@ -47,7 +47,7 @@ const userId=user._id
        }).catch(err=>{
          console.log(err)
        })
-       socket.emit('sendmsg',(id,textmsg))
+       socket.emit('sendmsg',({id,textmsg}))
        console.log('after sending msg')
 
    }
@@ -76,7 +76,7 @@ useEffect(()=>{
 
 },[id])
 useEffect(()=>{
-  setSocket(io('http://localhost:5000',{query:{userId}}))
+  setSocket(io({query:{userId}}))
   console.log('here')
 },[id])
 

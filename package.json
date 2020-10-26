@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start":"node src/index.js",
-    "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install --prefix instaclonereact && npm run build --prefix instaclonereact"
+    "start": "node src/index.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix instaclonereact && npm run build --prefix instaclonereact"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +15,7 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.5",
+    "socket.io": "^2.3.0",
     "validator": "^13.1.1"
   }
 }

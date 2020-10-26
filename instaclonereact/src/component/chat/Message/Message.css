@@ -1,14 +1,75 @@
+._sender{
+  background: #EFEFEF;
+  border-radius: 20px;
+  width: max-content;
+  margin:15px;
+  margin-right:30px;
+  min-height: 30px;
+  margin-left: auto;
+  padding: 10px;
+  border: 1px solid #EFEFEF;
+
+
+}
+._receiver{
+  background: white;
+  border-radius: 20px;
+    margin:15px;
+    margin-left: 40px;
+  width: max-content;
+  min-height: 30px;
+  padding: 10px;
+border: 1px solid #EFEFEF;
+}
 ._message{
   display: flex;
   flex-direction: column;
   flex:0.70;
 }
 ._msg{
-  height:60px;
-  align-items: center;
-  display: flex;
-  padding: 10px;
-  border:2px solid #EFEFEF;
-  border-left:none;
+  flex:1;
+ display: flex;
+ flex-flow: column;
+ overflow: auto;
 }
- 
+._textBody{
+
+  overflow-y: scroll;
+  justify-content:flex-end;
+  align-items: start;
+}
+._msgHeader{
+    height:60px;
+    display: flex;
+    padding: 10px;
+    border:2px solid #EFEFEF;
+    border-left:none;
+    align-items: center;
+}
+._text{
+  display: flex;
+  flex-flow: row;
+  height: 60px;
+  align-items: center;
+}
+._inputtext{
+  flex:1;
+
+
+  style:none;
+}
+._inputtext:focus{
+border-color: inherit;
+-webkit-box-shadow: none;
+  box-shadow: none;
+}
+._buttontext{
+  flex:0;
+  border:none;
+  color:blue;
+}
+._buttontext:focus{
+border-color: inherit;
+-webkit-box-shadow: none;
+  box-shadow: none;
+}

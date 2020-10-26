@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const Post =require('../models/post')
 const User=require('../models/auth')
+const Message =require('../models/message')
 const Middleware=require('../Middleware/authMiddleware')
 const router=express.Router()
 
@@ -12,6 +13,37 @@ router.get('/myposts',Middleware,(req,res)=>{
     res.send(result)
   }).catch(e=>{
     res.send(e)
+  })
+})
+router.post('/getmsg',Middleware,(req,res)=>{
+  Message.find({participants:{$all:[req.user._id,req.body.Id]}})
+  .then(result=>{
+    res.send(result)
+  })
+  .catch(err=>{
+    res.send(err)
+  })
+})
+router.post('/sendmsg',Middleware,(req,res)=>{
+  const messageResult={
+    message:req.body.message,
+    senderId:req.body.senderId,
+    participants:[req.body.senderId,req.body.receiverId]
+  }
+  const message = new Message(messageResult)
+  message.save().then(user => {
+    res.send(user)
+  }).catch(e => {
+    res.send(e.message)
+  })
+
+})
+router.post('/chatwindow',Middleware,(req,res)=>{
+  User.findById(req.body.Id).select("_id name profileUrl")
+  .then(result=>{
+    res.send(result)
+  }).catch(err=>{
+    res.send(err)
   })
 })
 router.post('/search-users',Middleware,(req,res)=>{
@@ -69,6 +101,15 @@ router.post('/post',Middleware,(req,res)=>{
   })
 
 
+})
+router.get('/followersList',Middleware,(req,res)=>{
+  User.findById(req.user._id).populate("following","_id name profileUrl")
+  .then(result=>{
+    res.status(200).send(result)
+  })
+  .catch(err=>{
+    res.status(501).send(err)
+  })
 })
 router.put('/like',Middleware,(req,res)=>{
   Post.findByIdAndUpdate(req.body.postId,{

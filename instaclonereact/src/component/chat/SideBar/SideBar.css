@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   flex:0.30;
-
+  overflow-y:  scroll;
 }
 ._Direct{
   padding:15px;

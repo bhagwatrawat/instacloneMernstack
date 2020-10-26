@@ -6,9 +6,9 @@ import './PersonChat.css'
 const PersonChat = (props) => {
   return (
     <div className="_PersonChat">
-    <div><Avatar/></div>
+    <div><Avatar src={props.item.profileUrl}/></div>
     <div className="ml-3">
-    <div>Bhagwwat rawat</div>
+    <div>{props.item.name}</div>
     <div>last message</div>
     </div>
     </div>

@@ -105,7 +105,7 @@ const OtherProfile = (props) => {
       setFollow(res.data.user.followers.includes(user._id))
 
     })
-  },[])
+  },[id])
    const classes = useStyles();
   const allposts=pics.map(mypost=>{
     return <OtherPost key={mypost._id}  src={mypost.photoUrl} />

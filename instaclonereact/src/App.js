@@ -39,7 +39,7 @@ function App() {
      {user?
        (
          <div>
-           <Header/>
+          <Header/>
          <Switch>
 
          <Route path="/createpost" exact component={createPost}/>
@@ -49,6 +49,7 @@ function App() {
          <Route path="/profile/:id"  component={otherProfile}/>
          <Route path="/chat" component={Chat}/>
        </Switch>
+
      </div>
 
    ) : (

@@ -20,13 +20,16 @@ const userId=user._id
     if(!socket) return;
     socket.on('response',({room,textmsg})=>{
       console.log('response received')
-      setMsgs([...msgs,{
-        senderId:room,
-        message:textmsg,
-      }])
+      console.log(msgs)
+      setMsgs(prevState=>{
+        return [...prevState,  { senderId:id,
+          _id:Math.random(),
+          message:textmsg}]
+      })
     })
     return ()=>socket.off('response')
   },[socket])
+
   const sendMsgHandler=(e)=>{
 
      e.preventDefault();

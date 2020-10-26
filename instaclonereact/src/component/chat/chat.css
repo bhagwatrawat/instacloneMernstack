@@ -4,3 +4,9 @@
   height:85vh;
   background: white;
 }
+@media (max-width:480px) {
+  ._chat{
+    margin-top:65px;
+    
+  }
+}

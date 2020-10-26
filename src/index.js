@@ -30,8 +30,8 @@ if(process.env.NODE_ENV=="production"){
   app.use(express.static('instaclonereact/build'))
   const path=require('path')
   app.get("*",(req,res)=>{
-    console.log(__dirname)
-    res.sendFile(path.resolve(__dirname,'instaclonereact','build','index.html'))
+
+    res.sendFile(path.join(__dirname,'../instaclonereact/build/index.html'))
   })
 }
 server.listen(PORT,()=>{

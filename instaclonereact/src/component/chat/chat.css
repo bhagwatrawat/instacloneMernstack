@@ -4,9 +4,15 @@
   height:85vh;
   background: white;
 }
+._hardCode{
+  flex:0.7;
+  display:flex;
+  justify-content: center;
+  align-self:center}
+
 @media (max-width:480px) {
   ._chat{
     margin-top:65px;
-    
+
   }
 }

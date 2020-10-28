@@ -1,6 +1,7 @@
 ._img{
   width:100%;
   max-width: 600px;
+  max-height: 500px;
   object-fit: contain;
 
 }

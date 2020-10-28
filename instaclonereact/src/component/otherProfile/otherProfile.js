@@ -6,6 +6,7 @@ import {useParams} from 'react-router-dom'
 import OtherPost from './otherPost/otherPost'
 import {UserContext} from '../../reducer/reducer'
 import { makeStyles } from '@material-ui/core/styles';
+import Spinner from '../spinner/spinner'
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -30,6 +31,7 @@ const OtherProfile = (props) => {
   const [following,setFollowing]=useState()
   const [follow,setFollow]=useState(false)
   const [pics,setPics]=useState([])
+  const [loader,setLoader]=useState(true)
  const {id} =useParams()
 
  const followHandler=()=>{
@@ -103,7 +105,7 @@ const OtherProfile = (props) => {
       setFollowers(res.data.user.followers.length)
       setFollowing(res.data.user.following.length)
       setFollow(res.data.user.followers.includes(user._id))
-
+      setLoader(false)
     })
   },[id])
    const classes = useStyles();
@@ -111,8 +113,12 @@ const OtherProfile = (props) => {
     return <OtherPost key={mypost._id}  src={mypost.photoUrl} />
   })
   return (
+
     <div className="_profile container-fluid pl-0 pr-0">
+
       <div className="col-lg-8 offset-lg-2 pl-0 pr-0 ">
+        {loader?<Spinner/>:
+   <div>
          <div className="container-fluid">
        <div className="row ">
         <div className="col-md-7 offset-md-1 pl-0 pr-0">
@@ -122,21 +128,24 @@ const OtherProfile = (props) => {
       className={classes.large}
       src={otherProfile.profileUrl} />
         </Media>
-        <Media body className="mt-5 ml-xl-5 ">
+        <Media body className="mt-5 ml-xl-5 ml-1 ">
         <Media heading >
 
-            {otherProfile.name}
+        {otherProfile.name}
 
-        {follow?
-        <Button  color='primary' size='sm'  onClick={unfollowHandler}>unfollow</Button>:
-        <Button  color='primary' size='sm' onClick={followHandler}>follow</Button>
-        }
+
         </Media>
+        <div className="d-flex flex-column">
         <div className="d-flex justify-content-between">
         <div>{pics.length} posts</div>
         <div>{followers} followers</div>
         <div>{following} following</div>
         </div>
+        {follow?
+        <Button className="mt-3" color='primary' size='sm'  onClick={unfollowHandler}>unfollow</Button>:
+        <Button className="mt-3"   color='primary' size='sm' onClick={followHandler}>follow</Button>
+        }
+      </div>
         </Media>
         </Media>
         </div>
@@ -148,7 +157,10 @@ const OtherProfile = (props) => {
       </div>
 
         </div>
+      }
         </div>
+      </div>
+
       )
 
 }

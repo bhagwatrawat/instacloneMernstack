@@ -1,10 +1,12 @@
 import React,{useContext,useState,useEffect} from 'react'
 import axios from 'axios'
-import { Media,Button, Modal,Form,Input, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Media,Button, Modal,Form,Input, ModalHeader,  Progress,ModalBody, ModalFooter } from 'reactstrap';
 import {Avatar} from '@material-ui/core'
 import YourPost from './YourPost/YourPost'
 import {UserContext} from '../../reducer/reducer'
 import { makeStyles } from '@material-ui/core/styles';
+import { IconButton } from '@material-ui/core';
+import Spinner from '../spinner/spinner'
 import './Profile.css'
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +29,9 @@ const Profile = (props) => {
   const [user,setUser]=useContext(UserContext)
   const [image,setImage]=useState()
   const [toggle,setToggle]=useState(false)
+  const [loader,setLoader]=useState(true)
   const [myposts,setMyposts]=useState([])
+  const [progress,setProgress]=useState(0)
   const [url,setUrl]=useState()
   const profileHandler=(e)=>{
     e.preventDefault()
@@ -36,7 +40,16 @@ const Profile = (props) => {
     data.append("file",image)
     data.append("upload_preset","instaclone")
     data.append("clound_name","bhagwat12uk")
-    axios.post(" https://api.cloudinary.com/v1_1/bhagwat12uk/image/upload",data)
+    const options={
+      onUploadProgress:(progressEvent)=>{
+        const {loaded,total}=progressEvent;
+        let percent=Math.floor((loaded*100)/total)
+        console.log(loaded,total)
+        console.log(percent)
+        setProgress(percent)
+      }
+    }
+    axios.post(" https://api.cloudinary.com/v1_1/bhagwat12uk/image/upload",data,options)
     .then(res=>{
       setUrl(res.data.url)
       setToggle(false)
@@ -45,6 +58,7 @@ const Profile = (props) => {
       console.log(e)
     })
   }
+
   const deleteProfileHandler=()=>{
     const data={
       url:"https://bnpull-1195f.kxcdn.com/pub/media/magefan_blog/default-user.png"
@@ -55,7 +69,7 @@ headers: {
 }
 }).then(res=>{
   setToggle(false)
-  console.log(res.data)
+  localStorage.setItem("USER",JSON.stringify(res.data))
   setUser(res.data)
 }).catch(err=>{
   console.log(err)
@@ -75,6 +89,7 @@ headers: {
 
        localStorage.setItem("USER",JSON.stringify(res.data))
        setUser(res.data)
+       setProgress(0)
 
       }).catch(e=>{
 
@@ -90,10 +105,11 @@ headers: {
     }).then(res=>{
 
       setMyposts([...res.data])
+      setLoader(false)
     })
   },[])
   const allposts=myposts.map(mypost=>{
-    return <YourPost key={mypost._id}  src={mypost.photoUrl} />
+    return <YourPost  key={mypost._id} id={mypost._id} src={mypost.photoUrl} />
   })
    const classes = useStyles();
   return <div>{
@@ -111,6 +127,7 @@ headers: {
           <Button color="primary" type="submit" onClick={(e)=>{profileHandler(e)}} >Upload</Button>
         </div>
         </Form>
+         <Progress animated="animated" value={progress} max="100"/>
         </ModalBody>
         <ModalBody>
           <Button color="danger" onClick={deleteProfileHandler} >Delete Profile Photo </Button>{' '}
@@ -126,6 +143,7 @@ headers: {
   ):(<div></div>)}
     <div className="_profile container-fluid pl-0 pr-0">
       <div className="col-lg-8 offset-lg-2 pl-0 pr-0 ">
+      {loader?<Spinner/>:<div>
          <div className="container-fluid">
        <div className="row ">
         <div className="col-md-7 offset-md-1 pl-0 pr-0">
@@ -134,14 +152,14 @@ headers: {
         <Avatar onClick={()=>{setToggle(true)}}
           name="Bhagwat rawat" src={user.profileUrl} className={classes.large} />
         </Media>
-        <Media body className="mt-5 ml-xl-5 ">
+        <Media body className="mt-5 ml-xl-5 ml-1">
         <Media heading>
         {user.name}
         </Media>
         <div className="d-flex justify-content-between">
-        <div>{myposts.length} Posts</div>
-        <div>{user.followers.length} followers</div>
-        <div>{user.following.length} following</div>
+        <button className="textbutton">{myposts.length} Posts</button>
+        <button className="textbutton">{user.followers.length} followers</button>
+        <button className="textbutton">{user.following.length} following</button>
         </div>
         </Media>
         </Media>
@@ -152,7 +170,7 @@ headers: {
       <div className="_posts">
        {allposts}
       </div>
-
+   </div>}
         </div>
         </div>
 

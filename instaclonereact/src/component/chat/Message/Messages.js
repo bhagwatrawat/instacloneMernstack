@@ -1,6 +1,7 @@
-import React,{useEffect,useState,useContext} from 'react'
+import React,{useEffect,useState,useContext,useRef} from 'react'
 import {Avatar} from '@material-ui/core'
 import {Button,Input,Form} from 'reactstrap'
+import Spinner from '../../spinner/spinner'
 import {useParams} from 'react-router-dom'
 import io from 'socket.io-client'
 import axios from 'axios'
@@ -14,15 +15,17 @@ import './Message.css'
    const {id} =useParams()
    const [room,setRoom]=useState('')
    const [socket,setSocket]=useState()
+   const messagesEndRef = useRef(null)
+   const [loader, setLoader]=useState(true)
 
 const userId=user._id
   useEffect(()=>{
     if(!socket) return;
-    socket.on('response',({room,textmsg})=>{
+    socket.on('response',({senderId,textmsg})=>{
       console.log('response received')
       console.log(msgs)
       setMsgs(prevState=>{
-        return [...prevState,  { senderId:id,
+        return [...prevState,  { senderId:senderId,
           _id:Math.random(),
           message:textmsg}]
       })
@@ -30,8 +33,13 @@ const userId=user._id
     return ()=>socket.off('response')
   },[socket])
 
-  const sendMsgHandler=(e)=>{
+  useEffect(()=>{
+    if(!messagesEndRef.current) return
+     messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+  },[msgs])
 
+  const sendMsgHandler=(e)=>{
+    const senderId=user._id
      e.preventDefault();
      const data={
        senderId:user._id,
@@ -50,11 +58,12 @@ const userId=user._id
        }).catch(err=>{
          console.log(err)
        })
-       socket.emit('sendmsg',({id,textmsg}))
-       console.log('after sending msg')
+       socket.emit('sendmsg',{senderId,textmsg})
+       console.log(senderId)
 
    }
 useEffect(()=>{
+  setLoader(true)
   const data={
     Id:id
   }
@@ -72,19 +81,24 @@ useEffect(()=>{
 
         'Authorization': 'Bearer '+localStorage.getItem('jwt')
       }}).then(result=>{
+             setLoader(false)
             setMsgs(result.data)
+
       }).catch(err=>{
         console.log(err)
       })
 
 },[id])
+
 useEffect(()=>{
-  setSocket(io({query:{userId}}))
+  setSocket(io({query:{id}}))
   console.log('here')
 },[id])
 
   return (
-    <div  className='_message'>
+  loader ? <div  className='_Spin'><Spinner /></div> :
+    <div className="_message">
+
     <div className="_msg">
     <div className="_msgHeader">
       <Avatar className="ml-4" src={profile.profileUrl} />
@@ -96,10 +110,11 @@ useEffect(()=>{
           return <div className={item.senderId==id?"_receiver":"_sender"} key={item._id}>{item.message}</div>
         })
       }
-
+      <div ref={messagesEndRef} />
       </div>
 
     </div>
+
 
       <Form>
         <div className="_text">
@@ -107,7 +122,9 @@ useEffect(()=>{
       <Button className="_buttontext" type="submit" onClick={(e)=>{sendMsgHandler(e)}}  color="none">Send</Button>
     </div>
     </Form>
-    </div>
+
+</div>
+
   )
 }
 

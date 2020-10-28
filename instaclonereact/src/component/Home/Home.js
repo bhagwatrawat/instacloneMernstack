@@ -2,8 +2,11 @@ import React,{useState,useEffect} from 'react'
 import axios from 'axios'
 import Post from './Post/Post'
 import './Home.css'
+import Spinner from '../spinner/spinner'
+
 
 const Home = (props) => {
+  const [loading,setLoading]=useState(true)
   const [posts,setPosts]=useState([])
   const state=JSON.parse(localStorage.getItem('USER'))
 useEffect(()=>{
@@ -13,7 +16,7 @@ useEffect(()=>{
     }}).then(res=>{
 
       setPosts(res.data.map(doc=>doc))
-      
+      setLoading(false)
 
     }).catch(e=>{
       console.log(e)
@@ -29,7 +32,8 @@ return   <Post key={post._id} id={post._id} caption={post.caption} photoUrl={pos
   return (
     <div className="_Home container-fluid pl-0 pr-0" >
       <div className="col-lg-8 offset-lg-2 pl-0 pr-0">
-      {allposts}
+
+      { loading ? <Spinner/> : allposts}
       </div>
       </div>
   )

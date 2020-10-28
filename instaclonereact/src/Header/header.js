@@ -11,6 +11,7 @@ import logo from '../Image/logo.png'
 import './header.css'
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, UncontrolledPopover, PopoverHeader, PopoverBody } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {
   Collapse,
   Navbar,
@@ -47,14 +48,45 @@ const Header = (props) => {
   const [user,setUser]=useContext(UserContext)
   const [isOpen, setIsOpen] = useState(false);
   const [search,setSearch]=useState(false)
+  const [ssearch,setSSearch]=useState(false)
   const [searchData,setSearchData]=useState([])
+  const [modal,setModal]=useState(false)
   const history=useHistory()
 const searchHandler=(e)=>{
   if(e.target.value){
     setSearch(true)
+
   }
   else{
     setSearch(false)
+
+  }
+  const data={
+    query:e.target.value
+  }
+  axios.post("/search-users",data,{
+     headers: {
+      'Authorization': 'Bearer '+localStorage.getItem('jwt')
+    }
+  }).then(res=>{
+
+    setSearchData(res.data)
+  }).catch(err=>{
+    console.log(err)
+  })
+}
+const modalHandler=()=>{
+  setModal(false)
+  setSSearch(false)
+}
+const ssearchHandler=(e)=>{
+  if(e.target.value){
+
+    setSSearch(true)
+  }
+  else{
+
+    setSSearch(false)
   }
   const data={
     query:e.target.value
@@ -94,23 +126,47 @@ const logoutHandler=()=>{
 
 
         <Input className="_search" type="text" name="search" id="exampleEmail" onChange={(e)=>{searchHandler(e)}} placeholder="Search" />
-        <div className="_iconSearch" ><FiSearch size={25}/></div>
-          <UncontrolledPopover popperClassName=" _mainPopper mt-3" innerClassName="_popper" trigger="legacy" placement="bottom" isOpen={search} toggle={()=>setSearch(false)} target='exampleEmail'>
+        <div className="_iconSearch" onClick={()=>setModal(!modal)} ><FiSearch size={25}/></div>
+          <Modal isOpen={modal} toggle={()=>setModal(!modal)}>
+         <ModalBody>
+         <Input  type="text" name="search" id="searchbar" onChange={(e)=>{ssearchHandler(e)}} placeholder="Search" />
+        </ModalBody>
 
-            <ListGroup>
-              {searchData.map(item=>{
-              return <Link key={item._id} style={{ color: 'inherit', textDecoration: 'inherit'}}
-                   onClick={()=>setSearch(false)}
-                   to={item._id!==user._id?'/profile/'+item._id:'/profile'}>
-                   <ListGroupItem className="d-flex align-items-center">
-                   <Avatar name={item.name} src={item.profileUrl} className={classes.small}/>
-                   <strong className="ml-2">{item.name}</strong>
-                  </ListGroupItem>
-                   </Link>
+           <UncontrolledPopover popperClassName=" _mainPopper mt-3" innerClassName="_popper" trigger="legacy" placement="bottom" isOpen={ssearch} toggle={()=>setSSearch(false)} target='searchbar'>
 
-              })}
-          </ListGroup>
-        </UncontrolledPopover>
+             <ListGroup>
+               {searchData.map(item=>{
+               return <Link key={item._id} style={{ color: 'inherit', textDecoration: 'inherit'}}
+                    onClick={modalHandler}
+                    to={item._id!==user._id?'/profile/'+item._id:'/profile'}>
+                    <ListGroupItem className="d-flex align-items-center">
+                    <Avatar name={item.name} src={item.profileUrl} className={classes.small}/>
+                    <strong className="ml-2">{item.name}</strong>
+                   </ListGroupItem>
+                    </Link>
+
+               })}
+           </ListGroup>
+         </UncontrolledPopover>
+
+       </Modal>
+
+        <UncontrolledPopover popperClassName=" _mainPopper mt-3" innerClassName="_popper" trigger="legacy" placement="bottom" isOpen={search} toggle={()=>setSearch(false)} target='exampleEmail'>
+
+          <ListGroup>
+            {searchData.map(item=>{
+            return <Link key={item._id} style={{ color: 'inherit', textDecoration: 'inherit'}}
+                 onClick={()=>setSearch(false)}
+                 to={item._id!==user._id?'/profile/'+item._id:'/profile'}>
+                 <ListGroupItem className="d-flex align-items-center">
+                 <Avatar name={item.name} src={item.profileUrl} className={classes.small}/>
+                 <strong className="ml-2">{item.name}</strong>
+                </ListGroupItem>
+                 </Link>
+
+            })}
+        </ListGroup>
+      </UncontrolledPopover>
 
           <Nav className="_links" navbar>
             <div className="d-flex  ml-auto">

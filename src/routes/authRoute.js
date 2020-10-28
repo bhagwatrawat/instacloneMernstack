@@ -24,6 +24,13 @@ router.post('/getmsg',Middleware,(req,res)=>{
     res.send(err)
   })
 })
+router.post('/deletepost',Middleware,(req,res)=>{
+  Post.findByIdAndDelete(req.body.id).then(result=>{
+    res.send(result)
+  }).catch(err=>{
+    res.status(402).send(err)
+  })
+})
 router.post('/sendmsg',Middleware,(req,res)=>{
   const messageResult={
     message:req.body.message,

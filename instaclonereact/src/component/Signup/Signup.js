@@ -14,15 +14,25 @@ const Signin = (props) => {
 
   const signUpHandler=(e)=>{
     e.preventDefault()
-    console.log('hello')
+
     const data={
       name:username,
       email:email,
       password:password
     }
-    console.log('i am here')
+
     axios.post("/signup",data).then(res=>{
-      history.push('/signin')
+      if(res.data._id){
+          history.push('/signin')
+      }
+     else {
+       if(res.data.errors.email ){
+         setError("Invalid email ")
+       }
+       else if( res.data.errors.password){
+         setError("Password must be greater than 8")
+       }
+     }
 
 
     }).catch(e=>{

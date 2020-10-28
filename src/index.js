@@ -16,13 +16,14 @@ app.use(UserRoute)
 app.use(otherUserRoute)
 
 io.on('connection',(socket)=>{
-  room=socket.handshake.query.userId
+  room=socket.handshake.query.id
   socket.join(room)
   console.log(room)
   console.log('connnection made')
-  socket.on('sendmsg',({id, textmsg})=>{
-    console.log('message sent',textmsg,id)
-    io.to(id).emit('response',{room,textmsg})
+  socket.on('sendmsg',({senderId, textmsg})=>{
+    console.log('message sent',textmsg,senderId)
+    console.log(senderId)
+    io.to(senderId).emit('response',{senderId,textmsg})
   })
 })
 

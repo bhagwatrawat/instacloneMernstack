@@ -9,3 +9,11 @@
   padding:15px;
   border-bottom: 1px solid #EFEFEF;
 }
+._blim{
+  display: flex;
+  flex-flow:column;
+  margin-top: 40px;
+  justify-content: center;
+  align-self: center;
+
+}

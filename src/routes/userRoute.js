@@ -10,7 +10,7 @@
    res.send("hello")
  })
  router.post('/signup', (req, res) => {
-   console.log(req.body)
+
    const {
      name,
      email,
@@ -41,9 +41,11 @@
        }
        const user = new User(req.body)
        user.save().then(user => {
+         console.log(user)
          res.send(user)
        }).catch(e => {
-         res.send(e.message)
+         console.log(e._message)
+         res.send(e)
        })
 
      }).catch(e => {

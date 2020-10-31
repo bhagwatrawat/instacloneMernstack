@@ -32,7 +32,8 @@ return <Post key={post._id}  id={post._id} caption={post.caption} photoUrl={post
 
     <div className="_Home container-fluid pl-0 pr-0" >
       <div className="col-lg-8 offset-lg-2 pl-0 pr-0">
-      {loader?<Spinner/>:allposts}
+      {loader?<Spinner/>:
+        posts.length?allposts: <h2 className="noposts">No posts to show</h2>}
       </div>
       </div>
   )

@@ -20,6 +20,7 @@
     max-width: 250px;
   }
 }
+
 ._receiver{
   background: white;
   border-radius: 20px;
@@ -72,6 +73,9 @@ border: 1px solid #EFEFEF;
 
 
   style:none;
+}
+._emoji{
+  flex:.1;
 }
 ._inputtext:focus{
 border-color: inherit;

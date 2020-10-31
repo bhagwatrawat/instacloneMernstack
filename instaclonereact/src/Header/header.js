@@ -135,7 +135,8 @@ const logoutHandler=()=>{
            <UncontrolledPopover popperClassName=" _mainPopper mt-3" innerClassName="_popper" trigger="legacy" placement="bottom" isOpen={ssearch} toggle={()=>setSSearch(false)} target='searchbar'>
 
              <ListGroup>
-               {searchData.map(item=>{
+                 {searchData.length?
+               searchData.map(item=>{
                return <Link key={item._id} style={{ color: 'inherit', textDecoration: 'inherit'}}
                     onClick={modalHandler}
                     to={item._id!==user._id?'/profile/'+item._id:'/profile'}>
@@ -145,7 +146,12 @@ const logoutHandler=()=>{
                    </ListGroupItem>
                     </Link>
 
-               })}
+               })
+               :
+                <ListGroupItem className="d-flex align-items-center">
+                  No Results Found
+                </ListGroupItem>
+             }
            </ListGroup>
          </UncontrolledPopover>
 
@@ -154,7 +160,8 @@ const logoutHandler=()=>{
         <UncontrolledPopover popperClassName=" _mainPopper mt-3" innerClassName="_popper" trigger="legacy" placement="bottom" isOpen={search} toggle={()=>setSearch(false)} target='exampleEmail'>
 
           <ListGroup>
-            {searchData.map(item=>{
+            {searchData.length?
+            searchData.map(item=>{
             return <Link key={item._id} style={{ color: 'inherit', textDecoration: 'inherit'}}
                  onClick={()=>setSearch(false)}
                  to={item._id!==user._id?'/profile/'+item._id:'/profile'}>
@@ -164,7 +171,12 @@ const logoutHandler=()=>{
                 </ListGroupItem>
                  </Link>
 
-            })}
+            })
+            :
+             <ListGroupItem className="d-flex align-items-center">
+               No Results Found
+             </ListGroupItem>
+          }
         </ListGroup>
       </UncontrolledPopover>
 

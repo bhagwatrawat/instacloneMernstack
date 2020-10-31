@@ -1,3 +1,8 @@
 ._Home{
   margin-top: 120px;
 }
+.noposts{
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}

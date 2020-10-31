@@ -1,9 +1,12 @@
 import React,{useEffect,useState,useContext,useRef} from 'react'
+import {GrEmoji} from 'react-icons/gr'
 import {Avatar} from '@material-ui/core'
-import {Button,Input,Form} from 'reactstrap'
+import {Button,Input,Form, InputGroup,InputGroupAddon} from 'reactstrap'
+import {  Popover, PopoverHeader, PopoverBody } from "reactstrap";
 import Spinner from '../../spinner/spinner'
 import {useParams} from 'react-router-dom'
 import io from 'socket.io-client'
+import Picker from 'emoji-picker-react'
 import axios from 'axios'
 import {UserContext} from '../../../reducer/reducer'
 import './Message.css'
@@ -13,10 +16,26 @@ import './Message.css'
   const [textmsg,setTextmsg]=useState('')
   const [msgs,setMsgs]=useState([])
    const {id} =useParams()
-   const [room,setRoom]=useState('')
+  
    const [socket,setSocket]=useState()
    const messagesEndRef = useRef(null)
+   const inputelement = useRef(null)
    const [loader, setLoader]=useState(true)
+ 
+   const [show,setShow]=useState(false)
+
+   
+ 
+   const onEmojiClick = (event, emojiObject) => {
+     setTextmsg(textmsg+emojiObject.emoji)
+     
+    
+   };
+  useEffect(()=>{
+ if(inputelement.current){
+  inputelement.current.focus()
+ }
+  },[textmsg])
 
 const userId=user._id
   useEffect(()=>{
@@ -87,6 +106,8 @@ useEffect(()=>{
       }).catch(err=>{
         console.log(err)
       })
+      
+     
 
 },[id])
 
@@ -112,13 +133,30 @@ useEffect(()=>{
       }
       <div ref={messagesEndRef} />
       </div>
-
+    
     </div>
 
-
+   
+    
       <Form>
-        <div className="_text">
-      <Input className="_inputtext"type="text" value={textmsg} onChange={(e)=>setTextmsg(e.target.value)} placeholder="text area..." name="comment" id="comment"/>
+      { show?
+      <div  className="_showemoji" >
+       
+     <Picker disableSearchBar onEmojiClick={onEmojiClick}  groupNames={{
+       smileys_people: 'yellow faces',
+       recently_used: 'did I really use those?!',
+     
+      }}/>  </div>: <div/>
+  } 
+  
+            <div className="_text">
+          <InputGroup>
+        <InputGroupAddon addonType="prepend">
+         <GrEmoji id="emoji" onClick={()=>setShow(!show)} className=" mt-2 mr-1 ml-md-2 mr-md-2"size={20}/>
+        </InputGroupAddon>
+      <Input  className="_inputtext"type="text" value={textmsg} autoFocus ref={inputelement} onChange={(e)=>setTextmsg(e.target.value)} placeholder="text area..." name="comment" id="comment"/>
+          </InputGroup>
+      
       <Button className="_buttontext" type="submit" onClick={(e)=>{sendMsgHandler(e)}}  color="none">Send</Button>
     </div>
     </Form>

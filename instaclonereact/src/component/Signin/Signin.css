@@ -13,8 +13,9 @@
   justify-content:center;
   margin-bottom: 10px;
 }
-._logo{
 
+._toast{
+  background: rgb(170, 235, 170);
 }
 
 ._colHeading{

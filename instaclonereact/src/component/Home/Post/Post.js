@@ -3,8 +3,9 @@ import "./Post.css"
 import { RiHeart3Line } from 'react-icons/ri';
 import {Link} from 'react-router-dom'
 import {FcLike} from 'react-icons/fc'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {Avatar} from '@material-ui/core'
-import {Input,Button,Form} from 'reactstrap'
+import {Input,Form} from 'reactstrap'
 import {UserContext} from '../../../reducer/reducer'
 import axios from 'axios'
 
@@ -34,7 +35,7 @@ const addComment=(e,id)=>{
   'Authorization': 'Bearer '+localStorage.getItem('jwt')
 }
 }).then(res=>{
-  console.log(res)
+  
   setComment('')
   setAllcomments(res.data.comments)
 }).catch(e=>{
@@ -82,19 +83,35 @@ headers: {
     return <div key={allcomment._id}className="ml-2" ><strong>{allcomment.postedBy.name}</strong> {allcomment.text}</div>
   })
   return (
+    <div>
+      <Modal isOpen={commentToggle} size='md' className="modalComments" scrollable={true} toggle={()=>setCommentToggle(!commentToggle)} >
+    <ModalHeader toggle={()=>setCommentToggle(!commentToggle)}>All Comments</ModalHeader>
+    <ModalBody  >
+     
+     <div>{comments.length==0?<div>No commnets to show</div>:comments}</div>
+    </ModalBody>
+    <ModalFooter>
+      
+      <Button color="secondary" onClick={()=>setCommentToggle(!commentToggle)}>Cancel</Button>
+    </ModalFooter>
+  </Modal>
+   
+    
     <div className="_Post" >
+      
      <div className="_heading p-2">
+       
        <Avatar  name={props.username} src={props.profilePic}/>
 
     <div className="ml-3"><Link className="_profileName" to={props.userId.toString()===user._id.toString()?"/profile":"/profile/"+props.userId}><strong>{props.username}</strong></Link></div>
     </div>
-    < img className="_img"  src={props.photoUrl} alt ="post" />
+    < img className="_img" onDoubleClick={()=>{likeHandler(props.id)}}  src={props.photoUrl} alt ="post" />
   {toggle? <FcLike  className="m-2"  size={25} onClick={()=>{unlikeHandler(props.id)}}/> :
   <RiHeart3Line className="m-2" size={25} onClick={()=>{likeHandler(props.id)}} />
    }
    <div className="m-2"><strong>{like} likes</strong></div>
     <div className=" _caption d-flex m-2"><strong>{props.username}</strong><div className="ml-2">{props.caption}</div></div>
-    <div className={commentToggle?"_fewComments":"_allcomments"}>
+    <div className="_allcomments">
       <div ><Link className="link-unstyled  ml-2 " onClick={()=>setCommentToggle(!commentToggle)}>view all comments</Link></div>
     {comments}
   </div>
@@ -104,6 +121,7 @@ headers: {
     <Button className="_buttonComment" type="submit" onClick={(e)=>{addComment(e,props.id)}}  color="none">Post</Button>
     </div>
   </Form>
+    </div>
     </div>
   )
 }

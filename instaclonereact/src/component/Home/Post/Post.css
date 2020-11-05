@@ -9,6 +9,10 @@
   color:black;
 
 }
+.modalComments {
+  overflow-y: scroll;
+  max-height: 400px;
+}
 ._profileName:hover{
   color:black;
 }
@@ -81,5 +85,9 @@ border-color: inherit;
       }
       ._inputComment{
         background-color: #FAFAFA;
+      }
+      .modalComments{
+        position:block;
+        top:17%;
       }
 }

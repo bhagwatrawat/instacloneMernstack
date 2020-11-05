@@ -55,6 +55,7 @@ const Profile = (props) => {
       setToggle(false)
     })
     .catch(e=>{
+      setProgress(0)
       console.log(e)
     })
   }
@@ -92,7 +93,7 @@ headers: {
        setProgress(0)
 
       }).catch(e=>{
-
+        setProgress(0)
         console.log(e.response.data.error)
       })
     }

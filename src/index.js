@@ -7,7 +7,7 @@ const socketio=require('socket.io')
 const authRoute=require('./routes/authRoute')
 const otherUserRoute=require('./routes/otherUserRoute')
 const app=express()
-const PORT= process.env.PORT || 5000
+const PORT= 5000
 const server=http.createServer(app)
 const io=socketio(server)
 app.use(express.json())

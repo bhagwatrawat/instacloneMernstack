@@ -85,7 +85,7 @@ const Signin = (props) => {
         <Input type="password" value={password} onChange={(e)=>setPassword(e.target.value)}
            name="password" id="Password" placeholder="Password" />
       </FormGroup>
-       <Button className="_button" type="submit" onClick={signUpHandler} outline color="primary">{spin ? <Spinner color="info" size="20px" color="primary" />:<div>SignUp</div>}</Button>
+       <Button className="_button" type="submit" onClick={signUpHandler} outline color="primary">{spin ? <Spinner  size="20px" color="primary" />:<div>SignUp</div>}</Button>
        <div className="_underline mt-5 mb-5"><span>OR</span></div>
       
        <div style={{textAlign:'center'}}>Already have an account ?<Link to='/signin'> Signin</Link></div>
